@@ -17,7 +17,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String? imgUrl;
   List playerDetails = [];
   List extractedDetails = [];
-  int errorCatcher = 0;
+  int errorCatcher =
+      0; // helps in checking how many "Unknown fields to add if an error is caught"
   void getData() async {
     errorCatcher = 0;
     String start = 'href="';
@@ -85,38 +86,42 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: ListView(children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Center(
-              child: imgUrl != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 68,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CircleAvatar(
-                            radius: 64,
-                            child: Image.network(
-                              imgUrl!,
+        body: Container(
+          height: MediaQuery.of(context).size.height / 1.1,
+          width: MediaQuery.of(context).size.width / 1.001,
+          child: ListView(children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Center(
+                child: imgUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.green,
+                          radius: 68,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CircleAvatar(
+                              radius: 64,
+                              child: Image.network(
+                                imgUrl!,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : const CircularProgressIndicator(),
+                      )
+                    : const CircularProgressIndicator(),
+              ),
             ),
-          ),
-          Expanded(
-            child: Padding(
+
+            Padding(
                 padding: const EdgeInsets.all(20),
                 child: imgUrl != null
                     ? DetailsGrid(extractedDetails: extractedDetails)
                     : null),
-          ),
-          //BioDataScreen()
-        ]));
+
+            //BioDataScreen()
+          ]),
+        ));
   }
 }
