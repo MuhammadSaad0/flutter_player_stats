@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_player_stats/utils/player_details_extractor.dart';
+import 'package:flutter_player_stats/widgets/details_grid.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 
@@ -14,6 +16,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   String? imgUrl;
   List playerDetails = [];
+  List extractedDetails = [];
   void getData() async {
     String start = 'href="';
     String end = '/"';
@@ -40,7 +43,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
             .querySelectorAll('div > div > div > dl')
             .map((e) => e.innerHtml.trim())
             .toList());
-        playerDetails.toString().split("</dt>");
+        extractedDetails.add(getFirstName(playerDetails.toString()));
+        extractedDetails.add(getLastName(playerDetails.toString()));
+        extractedDetails.add(getNationality(playerDetails.toString()));
+        extractedDetails.add(getDoB(playerDetails.toString()));
+        extractedDetails.add(getCoB(playerDetails.toString()));
+        extractedDetails.add(getAge(playerDetails.toString()));
+        extractedDetails.add(getPoB(playerDetails.toString()));
+        extractedDetails.add(getPosition(playerDetails.toString()));
+        extractedDetails.add(getHeight(playerDetails.toString()));
       } catch (err) {
         imgUrl =
             "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg";
@@ -75,24 +86,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       : const CircularProgressIndicator(),
                 ),
               ),
-              Container(
-                width: 250,
-                height: 350,
-                child: Expanded(
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              childAspectRatio: 3 / 2,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 10),
-                      itemBuilder: (context, index) {
-                        return Text(
-                          playerDetails.toString(),
-                          style: TextStyle(color: Colors.black),
-                        );
-                      }),
-                ),
+              Expanded(
+                child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: DetailsGrid(extractedDetails: extractedDetails)),
               ),
             ]));
   }
