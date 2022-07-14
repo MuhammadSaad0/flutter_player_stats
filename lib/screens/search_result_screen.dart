@@ -17,13 +17,15 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     return Container(
       padding: const EdgeInsets.only(top: 15),
       color: const Color.fromARGB(255, 239, 238, 238),
-      width: 300,
+      width: MediaQuery.of(context).orientation == Orientation.portrait
+          ? 300
+          : 700,
       height: 200,
       child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: false,
-          itemCount: widget.searchResults.length > 6
-              ? 3
-              : widget.searchResults.length - 2,
+          itemCount:
+              widget.searchResults.length > 6 ? 3 : widget.searchResults.length,
           itemBuilder: (context, index) {
             String start = '">';
             String end = '</a>';

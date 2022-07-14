@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List searchResults = [];
 
   void searchQuery() async {
+    FocusScope.of(context).unfocus();
     setState(() {
       isSearching = true;
       resultFound = false;
@@ -78,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height / 4.5,
@@ -97,7 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   Positioned(
-                    left: 260,
+                    left: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                        ? MediaQuery.of(context).size.width / 1.4
+                        : MediaQuery.of(context).size.width / 1.2,
                     child: IconButton(
                         onPressed: searchQuery, icon: const Icon(Icons.search)),
                   ),
@@ -115,7 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomSheet: Padding(
-        padding: EdgeInsets.only(left: 50, bottom: 10),
+        padding: EdgeInsets.only(
+            left: MediaQuery.of(context).orientation == Orientation.portrait
+                ? 50
+                : 220,
+            bottom: 10),
         child: Row(
           children: [
             Text("Powered by "),

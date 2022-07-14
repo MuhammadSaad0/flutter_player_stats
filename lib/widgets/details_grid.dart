@@ -7,7 +7,11 @@ class DetailsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(255, 199, 198, 198),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: const Color.fromARGB(255, 210, 220, 206),
+      ),
+      // color: const Color.fromARGB(255, 199, 198, 198),
       padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -16,39 +20,32 @@ class DetailsGrid extends StatelessWidget {
         children: [
           for (int i = 0; i < extractedDetails.length; i++)
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(i == 0
-                  ? "First Name:"
-                  : i == 1
-                      ? "Last Name:"
-                      : i == 2
-                          ? "Nationality:"
-                          : i == 3
-                              ? "Date of Birth:"
-                              : i == 4
-                                  ? "Country of Birth:"
-                                  : i == 5
-                                      ? "Age:"
-                                      : (i == 6 &&
-                                              extractedDetails[i] !=
-                                                  "Attacker" &&
-                                              extractedDetails[i] !=
-                                                  "Midfielder" &&
-                                              extractedDetails[i] !=
-                                                  "Defender" &&
-                                              extractedDetails[i] !=
-                                                  "Goalkeeper")
-                                          ? "Place of Birth:"
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Text(
+                  i == 0
+                      ? "First Name:"
+                      : i == 1
+                          ? "Last Name:"
+                          : i == 2
+                              ? "Nationality:"
+                              : i == 3
+                                  ? "Date of Birth:"
+                                  : i == 4
+                                      ? "Country of Birth:"
+                                      : i == 5
+                                          ? "Age:"
                                           : (i == 6 &&
-                                                      extractedDetails[i] ==
-                                                          "Attacker" ||
-                                                  extractedDetails[i] ==
-                                                      "Midfielder" ||
-                                                  extractedDetails[i] ==
-                                                      "Defender" ||
-                                                  extractedDetails[i] ==
+                                                  extractedDetails[i] !=
+                                                      "Attacker" &&
+                                                  extractedDetails[i] !=
+                                                      "Midfielder" &&
+                                                  extractedDetails[i] !=
+                                                      "Defender" &&
+                                                  extractedDetails[i] !=
                                                       "Goalkeeper")
-                                              ? "Position:"
-                                              : (i == 7 &&
+                                              ? "Place of Birth:"
+                                              : (i == 6 &&
                                                           extractedDetails[i] ==
                                                               "Attacker" ||
                                                       extractedDetails[i] ==
@@ -58,21 +55,40 @@ class DetailsGrid extends StatelessWidget {
                                                       extractedDetails[i] ==
                                                           "Goalkeeper")
                                                   ? "Position:"
-                                                  : (i == 7 &&
-                                                          extractedDetails[i] !=
-                                                              "Attacker" &&
-                                                          extractedDetails[i] !=
-                                                              "Midfielder" &&
-                                                          extractedDetails[i] !=
-                                                              "Defender" &&
-                                                          extractedDetails[i] !=
+                                                  : (i ==
+                                                                  7 &&
+                                                              extractedDetails[
+                                                                      i] ==
+                                                                  "Attacker" ||
+                                                          extractedDetails[i] ==
+                                                              "Midfielder" ||
+                                                          extractedDetails[i] ==
+                                                              "Defender" ||
+                                                          extractedDetails[i] ==
                                                               "Goalkeeper")
-                                                      ? "Height:"
-                                                      : i == 8
+                                                      ? "Position:"
+                                                      : (i ==
+                                                                  7 &&
+                                                              extractedDetails[
+                                                                      i] !=
+                                                                  "Attacker" &&
+                                                              extractedDetails[
+                                                                      i] !=
+                                                                  "Midfielder" &&
+                                                              extractedDetails[
+                                                                      i] !=
+                                                                  "Defender" &&
+                                                              extractedDetails[
+                                                                      i] !=
+                                                                  "Goalkeeper")
                                                           ? "Height:"
-                                                          : ""),
+                                                          : i == 8
+                                                              ? "Height:"
+                                                              : "",
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(top: 1),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Text(
                   (extractedDetails[i] != "") ? extractedDetails[i] : "Unknown",
                   style: const TextStyle(
