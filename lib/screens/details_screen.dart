@@ -43,6 +43,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             .querySelectorAll('div > div > div > dl')
             .map((e) => e.innerHtml.trim())
             .toList());
+
         extractedDetails.add(getFirstName(playerDetails.toString()));
         extractedDetails.add(getLastName(playerDetails.toString()));
         extractedDetails.add(getNationality(playerDetails.toString()));
@@ -52,9 +53,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
         extractedDetails.add(getPoB(playerDetails.toString()));
         extractedDetails.add(getPosition(playerDetails.toString()));
         extractedDetails.add(getHeight(playerDetails.toString()));
+        print(extractedDetails.isEmpty);
       } catch (err) {
         imgUrl =
             "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg";
+        for (int i = 0; i < 9; i++) {
+          extractedDetails.add("Unkown");
+        }
       }
     });
   }
@@ -89,8 +94,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
               Expanded(
                 child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: DetailsGrid(extractedDetails: extractedDetails)),
+                    child: imgUrl != null
+                        ? DetailsGrid(extractedDetails: extractedDetails)
+                        : null),
               ),
+              //BioDataScreen()
             ]));
   }
 }

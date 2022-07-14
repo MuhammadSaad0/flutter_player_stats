@@ -14,11 +14,16 @@ class SearchResultScreen extends StatefulWidget {
 class _SearchResultScreenState extends State<SearchResultScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: ListView.builder(
-          itemCount:
-              widget.searchResults.length > 6 ? 5 : widget.searchResults.length,
+    return Container(
+      padding: const EdgeInsets.only(top: 15),
+      color: const Color.fromARGB(255, 239, 238, 238),
+      width: 300,
+      height: 200,
+      child: ListView.builder(
+          shrinkWrap: false,
+          itemCount: widget.searchResults.length > 6
+              ? 3
+              : widget.searchResults.length - 2,
           itemBuilder: (context, index) {
             String start = '">';
             String end = '</a>';
