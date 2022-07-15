@@ -26,11 +26,13 @@ class _StatsBarState extends State<StatsBar> {
       headerValueHeight: 16,
       barSeparation: 54,
       animationCurve: Curves.elasticInOut,
-      lineGridColor: widget.imgUrl != null ? Colors.green : Colors.white,
+      lineGridColor: widget.imgUrl != null
+          ? const Color.fromARGB(77, 76, 175, 79)
+          : Colors.white,
       data: widget.stats,
       animationDuration: const Duration(seconds: 4),
       getColor: (double value) {
-        return const Color.fromARGB(166, 18, 0, 0);
+        return const Color.fromARGB(194, 1, 46, 2);
       },
     );
   }

@@ -44,8 +44,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                     );
               }
 
-              if (widget.searchResults[index] == "")
+              if (widget.searchResults[index] == "") {
                 return const SizedBox.shrink();
+              }
 
               return ListTile(
                   title: GestureDetector(

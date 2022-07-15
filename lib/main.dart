@@ -84,6 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Stack(
                 children: [
                   TextField(
+                    decoration: const InputDecoration(
+                      fillColor: Colors.grey,
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0)),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                      ),
+                    ),
                     controller: searchController,
                     onSubmitted: (value) {
                       setState(() {
@@ -92,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   Positioned(
+                    top: 8,
                     left: MediaQuery.of(context).orientation ==
                             Orientation.portrait
                         ? MediaQuery.of(context).size.width / 1.4

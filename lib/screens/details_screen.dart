@@ -21,6 +21,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
   List extractedDetails = [];
   List statDetails = [];
   List stats = [];
+  String? logoUrl;
+  List latestVal = [];
+  dom.Document? teamhtml;
   int errorCatcher =
       0; // helps in checking how many "Unknown fields to add if an error is caught"
   void getData() async {
@@ -40,8 +43,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final response = await http.get(url);
     dom.Document html = dom.Document.html(response.body);
 
+    List teamUrlList = (html
+        .querySelectorAll('td.team > a')
+        .map((e) => e.attributes['href'])
+        .toList());
+    if (teamUrlList.isNotEmpty) {
+      final team = Uri.parse("https://int.soccerway.com/${teamUrlList[0]}");
+      final teamresponse = await http.get(team);
+      teamhtml = dom.Document.html(teamresponse.body);
+    }
     setState(() {
       try {
+        if (teamhtml != null) {
+          logoUrl = (teamhtml!
+              .querySelectorAll('div > div.logo > img')
+              .map((e) => e.attributes['src'])
+              .toList()[0]);
+        }
         imgUrl = (html
             .querySelectorAll('div > div > img')
             .map((e) => e.attributes['src'])
@@ -54,6 +72,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
             .querySelectorAll('tfoot > tr')
             .map((e) => e.innerHtml.trim())
             .toList();
+        latestVal = (html
+            .querySelectorAll('table > tbody > tr > td.type')
+            .map((e) => e.innerHtml.trim())
+            .toList());
+
+        latestVal.sort();
+        print(latestVal);
         stats = getStats(statDetails);
 
         var returnedList =
@@ -93,22 +118,43 @@ class _DetailsScreenState extends State<DetailsScreen> {
               padding: const EdgeInsets.only(top: 30),
               child: Center(
                 child: imgUrl != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 68,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CircleAvatar(
-                              radius: 64,
-                              child: Image.network(
-                                imgUrl!,
+                    ? Stack(clipBehavior: Clip.none, children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 68,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CircleAvatar(
+                                radius: 64,
+                                child: Image.network(
+                                  imgUrl!,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      )
+                        if (logoUrl != null)
+                          CircleAvatar(
+                            backgroundColor:
+                                const Color.fromARGB(0, 255, 255, 255),
+                            child: Image.network(logoUrl!),
+                          ),
+                        if (latestVal.isNotEmpty)
+                          Positioned(
+                              left: latestVal.last == "N/A" ||
+                                      latestVal.last == "Free"
+                                  ? MediaQuery.of(context).size.width / 6.6
+                                  : MediaQuery.of(context).size.width / 8,
+                              top: MediaQuery.of(context).size.height / 5.5,
+                              child: Text(
+                                latestVal.last,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                      ])
                     : const CircularProgressIndicator(),
               ),
             ),
@@ -118,7 +164,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ? DetailsGrid(extractedDetails: extractedDetails)
                     : null),
             Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+              padding: const EdgeInsets.only(
+                left: 25,
+                right: 25,
+                bottom: 10,
+              ),
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
