@@ -3,6 +3,8 @@ import 'package:flutter_player_stats/utils/extraction_logic.dart';
 import 'package:flutter_player_stats/utils/player_details_extractor.dart';
 import 'package:flutter_player_stats/widgets/details_grid.dart';
 import 'package:flutter_player_stats/widgets/stats_bar.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 
@@ -108,7 +110,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          Stack(children: [
+            const Positioned(
+              left: 12,
+              top: 12,
+              child: CircleAvatar(
+                radius: 12,
+                backgroundColor: Colors.white,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(
+                FontAwesome.github,
+                size: 28,
+                color: Colors.black,
+              ),
+              onPressed: () async {
+                await launchUrl(Uri.parse(
+                    'https://github.com/MuhammadSaad0/flutter_player_stats'));
+              },
+            ),
+          ]),
+        ],
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height / 1.1,
         width: MediaQuery.of(context).size.width / 1.001,
