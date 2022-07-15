@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DetailsGrid extends StatelessWidget {
-  List extractedDetails;
-  DetailsGrid({Key? key, required this.extractedDetails}) : super(key: key);
+  final List extractedDetails;
+  const DetailsGrid({Key? key, required this.extractedDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

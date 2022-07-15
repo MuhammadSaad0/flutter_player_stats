@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:chart_components/chart_components.dart';
 
 class StatsBar extends StatefulWidget {
-  List<double> stats;
-  String? imgUrl;
-  StatsBar({Key? key, required this.stats, required this.imgUrl})
+  final List<double> stats;
+  final String? imgUrl;
+  const StatsBar({Key? key, required this.stats, required this.imgUrl})
       : super(key: key);
 
   @override

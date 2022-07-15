@@ -133,7 +133,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ? const Color.fromARGB(255, 151, 179, 152)
                           : Colors.white),
                   child: Column(children: [
-                    Container(
+                    SizedBox(
                       height: 180,
                       width: double.infinity,
                       child: StatsBar(

@@ -63,10 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
       isSearching = false;
       resultFound = true;
     });
-
-    // Navigator.of(context).push(MaterialPageRoute(
-    //     builder: (context) =>
-    //         SearchResultScreen(searchResults: searchResults)));
   }
 
   @override
@@ -124,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: 10),
         child: Row(
           children: [
-            Text("Powered by "),
+            const Text("Powered by "),
             InkWell(
               onTap: () async {
                 await launchUrl(Uri.parse('https://int.soccerway.com/'));

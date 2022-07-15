@@ -43,18 +43,13 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       end,
                     );
               }
-              // widget.searchResults.toString().replaceAll('.', '');
-              // widget.searchResults.toString().replaceAll(',', '');
-              // widget.searchResults.toString().replaceAll(' ', '');
-              if (widget.searchResults[index] == "") return SizedBox.shrink();
+
+              if (widget.searchResults[index] == "")
+                return const SizedBox.shrink();
 
               return ListTile(
                   title: GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => DetailsScreen(
-                        //           searchResults: widget.searchResults[index],
-                        //         )));
                         Navigator.push(
                             context,
                             PageTransition(
