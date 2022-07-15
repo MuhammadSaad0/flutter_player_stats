@@ -1,6 +1,7 @@
 import 'package:recase/recase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_player_stats/screens/details_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SearchResultScreen extends StatefulWidget {
   final List searchResults;
@@ -50,8 +51,16 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               return ListTile(
                   title: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DetailsScreen(
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => DetailsScreen(
+                        //           searchResults: widget.searchResults[index],
+                        //         )));
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.fade,
+                                alignment: Alignment.bottomCenter,
+                                child: DetailsScreen(
                                   searchResults: widget.searchResults[index],
                                 )));
                       },

@@ -123,7 +123,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white),
-                height: 200,
+                height: 220,
                 width: double.infinity,
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -132,15 +132,47 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       color: imgUrl != null
                           ? const Color.fromARGB(255, 151, 179, 152)
                           : Colors.white),
-                  child: StatsBar(
-                    stats: [
-                      stats.isNotEmpty ? double.parse(stats[0]) : 0,
-                      stats.isNotEmpty ? double.parse(stats[1]) : 0,
-                      stats.isNotEmpty ? double.parse(stats[2]) : 0,
-                      stats.isNotEmpty ? double.parse(stats[3]) : 0,
-                    ],
-                    imgUrl: imgUrl,
-                  ),
+                  child: Column(children: [
+                    Container(
+                      height: 180,
+                      width: double.infinity,
+                      child: StatsBar(
+                        stats: [
+                          stats.isNotEmpty ? double.parse(stats[0]) : 0,
+                          stats.isNotEmpty ? double.parse(stats[1]) : 0,
+                          stats.isNotEmpty ? double.parse(stats[2]) : 0,
+                          stats.isNotEmpty ? double.parse(stats[3]) : 0,
+                        ],
+                        imgUrl: imgUrl,
+                      ),
+                    ),
+                    if (imgUrl != null)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 15, bottom: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              '🟩',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            Text(
+                              '⚽',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            Text(
+                              '🟨',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            Text(
+                              '🟥',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      )
+                  ]),
                 ),
               ),
             )
