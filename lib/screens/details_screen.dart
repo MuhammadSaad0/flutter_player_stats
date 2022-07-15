@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_player_stats/utils/extraction_logic.dart';
 import 'package:flutter_player_stats/utils/player_details_extractor.dart';
 import 'package:flutter_player_stats/widgets/details_grid.dart';
+import 'package:flutter_player_stats/widgets/stats_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 
@@ -17,6 +19,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String? imgUrl;
   List playerDetails = [];
   List extractedDetails = [];
+  List statDetails = [];
+  List stats = [];
   int errorCatcher =
       0; // helps in checking how many "Unknown fields to add if an error is caught"
   void getData() async {
@@ -46,26 +50,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
             .querySelectorAll('div > div > div > dl')
             .map((e) => e.innerHtml.trim())
             .toList());
+        statDetails = html
+            .querySelectorAll('tfoot > tr')
+            .map((e) => e.innerHtml.trim())
+            .toList();
+        stats = getStats(statDetails);
 
-        extractedDetails.add(getFirstName(playerDetails.toString()));
-        errorCatcher = 1;
-        extractedDetails.add(getLastName(playerDetails.toString()));
-        errorCatcher = 2;
-        extractedDetails.add(getNationality(playerDetails.toString()));
-        errorCatcher = 3;
-        extractedDetails.add(getDoB(playerDetails.toString()));
-        errorCatcher = 4;
-        extractedDetails.add(getCoB(playerDetails.toString()));
-        errorCatcher = 5;
-        extractedDetails.add(getAge(playerDetails.toString()));
-        errorCatcher = 6;
-        extractedDetails.add(getPoB(playerDetails.toString()));
-        errorCatcher = 7;
-        extractedDetails.add(getPosition(playerDetails.toString()));
-        errorCatcher = 8;
-        extractedDetails.add(getHeight(playerDetails.toString()));
-
-        print(extractedDetails.isEmpty);
+        var returnedList =
+            getDetailsLogic(playerDetails, extractedDetails, errorCatcher);
+        playerDetails = returnedList[0];
+        extractedDetails = returnedList[1];
+        errorCatcher = returnedList[2];
+        for (int i = 0; i < 8 - errorCatcher; i++) {
+          extractedDetails.add("Unkown");
+        }
       } catch (err) {
         imgUrl =
             "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg";
@@ -85,11 +83,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: Container(
-          height: MediaQuery.of(context).size.height / 1.1,
-          width: MediaQuery.of(context).size.width / 1.001,
-          child: ListView(children: [
+      appBar: AppBar(),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height / 1.1,
+        width: MediaQuery.of(context).size.width / 1.001,
+        child: ListView(
+          children: [
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: Center(
@@ -113,15 +112,41 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     : const CircularProgressIndicator(),
               ),
             ),
-
             Padding(
                 padding: const EdgeInsets.all(20),
                 child: imgUrl != null
                     ? DetailsGrid(extractedDetails: extractedDetails)
                     : null),
-
-            //BioDataScreen()
-          ]),
-        ));
+            Padding(
+              padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white),
+                height: 200,
+                width: double.infinity,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: imgUrl != null
+                          ? const Color.fromARGB(255, 151, 179, 152)
+                          : Colors.white),
+                  child: StatsBar(
+                    stats: [
+                      stats.isNotEmpty ? double.parse(stats[0]) : 0,
+                      stats.isNotEmpty ? double.parse(stats[1]) : 0,
+                      stats.isNotEmpty ? double.parse(stats[2]) : 0,
+                      stats.isNotEmpty ? double.parse(stats[3]) : 0,
+                    ],
+                    imgUrl: imgUrl,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

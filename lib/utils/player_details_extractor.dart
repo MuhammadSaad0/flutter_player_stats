@@ -43,6 +43,35 @@ String getHeight(input) {
   return input.toString().substring(0, input.toString().length - 1);
 }
 
+String getAppearences(input) {
+  input = divide(input.toString().split('/td')[2]);
+  return input.toString().substring(0, input.toString().length - 1);
+}
+
+String getGoals(input) {
+  input = divide(input.toString().split('/td')[7]);
+  return input.toString().substring(0, input.toString().length - 1);
+}
+
+String getYellowCards(input) {
+  input = divide(input.toString().split('/td')[8]);
+  return input.toString().substring(0, input.toString().length - 1);
+}
+
+String getRedCards(input) {
+  input = divide(input.toString().split('/td')[10]);
+  return input.toString().substring(0, input.toString().length - 1);
+}
+
+List getStats(input) {
+  List listToReturn = [];
+  listToReturn.add(getAppearences(input));
+  listToReturn.add(getGoals(input));
+  listToReturn.add(getYellowCards(input));
+  listToReturn.add(getRedCards(input));
+  return listToReturn;
+}
+
 String divide(input) {
   String start = '">';
   final startIndex = input.toString().indexOf(start);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_player_stats/screens/search_result_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:link_text/link_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 
